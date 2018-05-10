@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Food
   layers:
   - Default
   - TransparentFX
@@ -40,4 +42,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 4201045035
+    locked: 0
+  - name: Enemy
+    uniqueID: 920102637
+    locked: 0
+  - name: PowerUps
+    uniqueID: 2351088545
+    locked: 0
+  - name: Player
+    uniqueID: 2511364219
     locked: 0

@@ -42,12 +42,11 @@ public class PlayerController : MonoBehaviour {
 		//rotate player according to mouse position
 
 		mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-
 		var dir = mousePos - playerTransf.position;
-		dir.Normalize ();
-		playerTransf.right = dir;
+		angle = Mathf.Atan2 (dir.y, dir.x) * Mathf.Rad2Deg;
 
-		// LookAt 2D Unity
+		playerTransf.rotation = Quaternion.Euler(0f,0f,angle);
+
 
 	}
 }
