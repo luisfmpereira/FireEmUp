@@ -63,7 +63,7 @@ public class PauseMenuController : MonoBehaviour {
 		#if UNITY_EDITOR
 		EditorApplication.isPlaying = false;
 		#else
-		Application.QuitClick();
+		Application.Quit();
 		#endif
 	}
 }
