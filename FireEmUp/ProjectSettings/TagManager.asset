@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Enemy
   - Food
+  - EnemyBullet
+  - PlayerBullet
+  - LevelController
+  - Shield
   layers:
   - Default
   - TransparentFX
@@ -15,11 +19,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - PlayerBullet
+  - Shield
+  - Player
+  - EnemyBullet
+  - Enemy
   - 
   - 
   - 

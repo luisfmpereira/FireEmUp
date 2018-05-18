@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
 
+
+	public GameObject levelController;
+	public int enemyScore = 100;
+
 	//move variables
 	public GameObject player;
 	private Transform enemyTransf;
@@ -15,22 +19,29 @@ public class EnemyController : MonoBehaviour {
 	public Rigidbody2D bulletPrefab;
 	public bool allowShooting;
 
-	
+	//health and drops
+	public int enemyHealth = 1;
+	public float dropChance;
+	public GameObject [] foodPrefabs;
 
-	// Use this for initialization
 	void Start () {
 		enemyTransf = GetComponent<Transform> ();
 		player = GameObject.FindGameObjectWithTag ("Player");
+		levelController = GameObject.FindGameObjectWithTag ("LevelController");
 
 		shootingCounter = 0f;
 	}
 	
 
-	void FixedUpdate () {
+	void Update () {
+		
 		MoveEnemy ();
 
 		if(allowShooting)
 			ShootEnemy ();
+		
+		if (enemyHealth <= 0)
+			KillEnemy ();
 	}
 
 
@@ -59,7 +70,41 @@ public class EnemyController : MonoBehaviour {
 
 			bullet.AddForce (300 * new Vector2(direction.x,direction.y).normalized);
 
+			Destroy (bullet.gameObject, 3);
+
 		}
 
 	}
+
+
+	void KillEnemy(){
+		
+		float drop = Random.Range (0, 10);
+		var foodOfChoice = Random.Range (0, foodPrefabs.Length);
+
+		if (drop <= dropChance) {
+			GameObject food = Instantiate (foodPrefabs [foodOfChoice], this.transform.position, Quaternion.identity);
+
+			Destroy (food.gameObject, 5);
+
+		}
+
+		Destroy (this.gameObject);
+
+		levelController.GetComponent<ScoreController> ().score += enemyScore;
+		levelController.GetComponent<ScoreController> ().enemyCount++;
+
+	}
+
+
+
+	void OnTriggerEnter2D(Collider2D hit){
+
+		if (hit.gameObject.CompareTag ("PlayerBullet")) {
+			enemyHealth--;
+		}
+
+
+	}
+
 }

@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour {
 
-	private bool pause;
+	public bool pause;
 	private float originalFixedTime;
 	public GameObject pauseMenu;
 
@@ -45,7 +45,7 @@ public class PauseMenuController : MonoBehaviour {
 
 	public void ResumeClick (){
 		pauseMenu.SetActive (false);
-
+		pause = !pause;
 		//stop simulation
 		Time.timeScale = 1;
 		Time.fixedDeltaTime = originalFixedTime;
