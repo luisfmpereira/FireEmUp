@@ -70,8 +70,6 @@ public class EnemyController : MonoBehaviour {
 
 			bullet.AddForce (300 * new Vector2(direction.x,direction.y).normalized);
 
-			Destroy (bullet.gameObject, 3);
-
 		}
 
 	}

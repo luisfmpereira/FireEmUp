@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour {
 
 	public GameObject LevelController;
+	public GameObject MainMenuController;
 	public int foodScore = 50;
 
 	public Transform playerTransf;
@@ -23,10 +24,14 @@ public class PlayerController : MonoBehaviour {
 	//shooting
 	public Rigidbody2D bulletPrefab; 
 	public Transform muzzlePosition;
+	public float fireCooldown = 0.5f;
+	private float fireTimer = 0;
 
 	//health
 	public Image [] hearts;
-	public int currentHeart;
+	private int currentHeart;
+
+	public GameObject shield;
 
 
 	void Start () {
@@ -42,12 +47,22 @@ public class PlayerController : MonoBehaviour {
 
 	void Update () {
 
+		fireTimer -= Time.deltaTime;
+
 		movePlayer ();
 
 		playerShoot ();
 
-		if (currentHeart <= 0)
-			SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+		if (currentHeart <= 0) {
+
+			if (LevelController.GetComponent<ScoreController>().score > PlayerPrefs.GetInt("HighScore")) {
+
+				PlayerPrefs.SetInt ("HighScore", LevelController.GetComponent<ScoreController> ().score);
+
+			}
+			SceneManager.LoadScene ("MainMenu");
+
+		}
 	}
 
 
@@ -75,7 +90,8 @@ public class PlayerController : MonoBehaviour {
 		
 		var dir = mousePos - playerTransf.position;
 
-		if (Input.GetButtonDown ("Fire1")) {
+		if (Input.GetButton ("Fire1") && fireTimer <= 0) {
+			fireTimer = fireCooldown;
 			Instantiate (bulletPrefab, muzzlePosition.position, playerTransf.transform.rotation).AddForce(700 * new Vector2(dir.x,dir.y).normalized);
 		}
 
@@ -96,7 +112,7 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		if (hit.gameObject.CompareTag ("EnemyBullet")) {
+		if (!shield.gameObject.activeSelf && hit.gameObject.CompareTag ("EnemyBullet")) {
 
 			Destroy (hit.gameObject);
 			hearts [currentHeart-1].enabled = false;

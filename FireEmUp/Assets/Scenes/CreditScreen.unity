@@ -353,20 +353,16 @@ MonoBehaviour:
   items:
   - area: game design
     names:
-    - Stephanie
     - Luis Filipe
   - area: art
     names:
-    - Vitor
-    - Leonardo
-    - Vinicius
+    - opengameart.com
   - area: programming
     names:
     - Luis Filipe
-    - Gabriel
   - area: sound design
     names:
-    - Stephanie
+    - Luis Filipe
   areaText: {fileID: 1007511223}
   authorsText: {fileID: 538615244}
 --- !u!95 &1007511222

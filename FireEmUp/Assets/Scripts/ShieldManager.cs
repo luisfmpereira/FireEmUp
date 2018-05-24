@@ -4,28 +4,31 @@ using UnityEngine;
 
 public class ShieldManager : MonoBehaviour {
 
-	public float maxTimer;
-	public float shieldTime;
+	public GameObject levelController;
+	public int shieldLife = 3;
 
-	void Start () {
-		
+
+	void Awake(){
+
+		levelController = GameObject.FindGameObjectWithTag ("LevelController");
+		shieldLife = 3;
 	}
 
-	void Update () {
-		
+
+	void Update(){
+		if(shieldLife <= 0) {
+			levelController.GetComponent<ScoreController> ().shieldActive = false;
+		}
+
 	}
-
-
 
 	void OnTriggerEnter2D(Collider2D hit){
 
 		if (hit.gameObject.CompareTag ("Enemy")) {
 			Destroy (hit.gameObject);
+			shieldLife--;
 		}
-
-		if (hit.gameObject.CompareTag ("EnemyBullet")) {
-			Destroy (hit.gameObject);
-		}
+			
 	}
 
 }

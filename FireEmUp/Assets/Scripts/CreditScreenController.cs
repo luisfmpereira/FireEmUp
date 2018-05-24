@@ -26,7 +26,7 @@ public class CreditScreenController : MonoBehaviour {
 			if (loop)
 				currentItem = 0;
 			else
-				SceneManager.LoadScene (0);
+				SceneManager.LoadScene ("MainMenu");
 		}
 
 		AddInfoToTheTexts ();
@@ -45,7 +45,7 @@ public class CreditScreenController : MonoBehaviour {
 
 	public void Update() {
 		if (Input.anyKeyDown || Input.GetMouseButtonDown(0))
-			SceneManager.LoadScene (0);
+			SceneManager.LoadScene ("MainMenu");
 	}
 
 

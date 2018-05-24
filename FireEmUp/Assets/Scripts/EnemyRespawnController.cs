@@ -6,27 +6,45 @@ public class EnemyRespawnController : MonoBehaviour {
 
 
 	public float respawnRate = 5f;
-	private float respawnCounter;
+	public float respawnCounter;
 	public Transform respawnArea;
 	public GameObject [] newEnemy;
-
 	public bool horizontalSpawn;
 
-	// Use this for initialization
+	public int numberOfEnemies = 1;
+
+	public int levelControllerScore;
+
+
 	void Start () {
 		respawnArea = GetComponent<Transform> ();
+
 	}
-	
-	// Update is called once per frame
+
+
+
 	void Update () {
+		levelControllerScore = GameObject.FindGameObjectWithTag ("LevelController").GetComponent<ScoreController> ().score;
 		respawnCounter -= Time.deltaTime;
-		 
+
+		numberOfEnemies = (1 + levelControllerScore / 2000);
+
 		if (respawnCounter <= 0) {
 			respawnCounter = respawnRate;
-			if(horizontalSpawn)
-				Instantiate(newEnemy[Random.Range(0,newEnemy.Length)],new Vector3(Random.Range(-10,10),respawnArea.position.y,0),Quaternion.identity);
-			else
-				Instantiate(newEnemy[Random.Range(0,newEnemy.Length)],new Vector3(respawnArea.position.x,Random.Range(-10,10),0),Quaternion.identity);
+			SpawnEnemy (horizontalSpawn, numberOfEnemies);
+		}
+
+	}
+
+	void SpawnEnemy (bool horizontal, int amount){
+
+		if (horizontal) {
+			for(int i = 0; i< amount;i++)
+				Instantiate (newEnemy [Random.Range (0, newEnemy.Length)], new Vector3 (Random.Range (-10, 10), respawnArea.position.y, 0), Quaternion.identity);
+		} else {
+			for(int i = 0; i<= amount;i++)
+				Instantiate (newEnemy [Random.Range (0, newEnemy.Length)], new Vector3 (respawnArea.position.x, Random.Range (-10, 10), 0), Quaternion.identity);
 		}
 	}
+			
 }
