@@ -9,6 +9,8 @@ public class ScoreController : MonoBehaviour {
 	public Text scoreText;
 	public int score;
 	public int enemyCount;
+	public float ultCount;
+	public float ultMax = 30;
 	private int randomSpecial;
 
 	public bool shieldActive = false;
@@ -67,6 +69,13 @@ public class ScoreController : MonoBehaviour {
 			enemyCount = 0;
 			
 		}
+
+
+		if (ultCount >= ultMax) {
+			//allow ultimate
+			player.GetComponent<PlayerController>().allowUltimate = true;
+		}
+
 
 		//shield
 		if(shieldActive)

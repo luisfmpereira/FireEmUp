@@ -11,7 +11,10 @@ public class EnemyBulletController : MonoBehaviour {
 			Destroy (this.gameObject);
 		}
 
+		if (hit.gameObject.CompareTag ("UltKillzone")) {
 
+			Destroy (this.gameObject);
+		}
 	}
 
 

@@ -10,6 +10,7 @@ TagManager:
   - PlayerBullet
   - LevelController
   - Shield
+  - UltKillzone
   layers:
   - Default
   - TransparentFX

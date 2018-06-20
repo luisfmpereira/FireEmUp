@@ -92,6 +92,9 @@ public class EnemyController : MonoBehaviour {
 		levelController.GetComponent<ScoreController> ().score += enemyScore;
 		levelController.GetComponent<ScoreController> ().enemyCount++;
 
+		if(!player.GetComponent<PlayerController>().usingUlt)
+			levelController.GetComponent<ScoreController> ().ultCount++;
+
 	}
 
 
@@ -100,6 +103,9 @@ public class EnemyController : MonoBehaviour {
 
 		if (hit.gameObject.CompareTag ("PlayerBullet")) {
 			enemyHealth--;
+		}
+		if (hit.gameObject.CompareTag ("UltKillzone")) {
+			enemyHealth=0;
 		}
 
 

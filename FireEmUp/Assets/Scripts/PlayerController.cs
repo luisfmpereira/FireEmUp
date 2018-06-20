@@ -33,6 +33,11 @@ public class PlayerController : MonoBehaviour {
 
 	public GameObject shield;
 
+	//ultimate
+	public Image ultImage;
+	public bool allowUltimate = false;
+	public GameObject ultCollider;
+
 
 	void Start () {
 		playerTransf = GetComponent<Transform> ();
@@ -49,9 +54,14 @@ public class PlayerController : MonoBehaviour {
 
 		fireTimer -= Time.deltaTime;
 
+		//health bar fill
+		ultImage.fillAmount = LevelController.GetComponent<ScoreController> ().ultCount / LevelController.GetComponent<ScoreController> ().ultMax;
+
 		movePlayer ();
 
 		playerShoot ();
+
+		Ultimate ();
 
 		if (currentHeart <= 0) {
 
@@ -112,25 +122,52 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		if (!shield.gameObject.activeSelf && hit.gameObject.CompareTag ("EnemyBullet")) {
+		if (!usingUlt && !shield.gameObject.activeSelf && hit.gameObject.CompareTag ("EnemyBullet")) {
 
 			Destroy (hit.gameObject);
 			hearts [currentHeart-1].enabled = false;
 			currentHeart--;
+			if (!allowUltimate) {
+				LevelController.GetComponent<ScoreController> ().ultCount = 0;
+			}
 		}
 
 	}
 
 	void OnCollisionEnter2D(Collision2D hit){
-		if (hit.gameObject.CompareTag ("Enemy")) {
+		if (!usingUlt && hit.gameObject.CompareTag ("Enemy")) {
 			hearts [currentHeart-1].enabled = false;
 			currentHeart--;
+			if (!allowUltimate) {
+				LevelController.GetComponent<ScoreController> ().ultCount = 0;
+			}
 
 		}
+			
+	}
 
+	public float ultTimer;
+	public float ultTimerMax = 5;
+	public bool usingUlt;
 
-
-
+	void Ultimate(){
+		if (allowUltimate && Input.GetButtonDown ("Fire2")) {
+			ultTimer = ultTimerMax;
+			ultCollider.GetComponent<Transform>().localScale = new Vector3( 0.1f,0.1f,1f);
+			ultCollider.SetActive(true);
+			LevelController.GetComponent<ScoreController> ().ultCount = 0;
+			allowUltimate = false;
+			usingUlt = true;
+		}
+		if (usingUlt) {
+			if (ultTimer >= 0) {
+				ultCollider.GetComponent<Transform>().localScale += new Vector3( 0.1f,0.1f,0f);
+				ultTimer -= Time.deltaTime;
+			} else {
+				usingUlt = false;
+				ultCollider.SetActive(false);
+			}
+		}
 	}
 
 
